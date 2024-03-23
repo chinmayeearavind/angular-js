@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="shoppingApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping List</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+</head>
+<body>
+
+<div ng-controller="ShoppingController as shoppingCtrl">
+    <h2>Shopping List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Slno</th>
+                <th>Item Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in shoppingCtrl.items">
+                <td>{{ $index+1 }}</td>
+                <td>{{ item.name }}</td>
+
+                <td><button ng-click="shoppingCtrl.removeItem($index)">Remove</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+
+    <input type="text" ng-model="shoppingCtrl.newItemName" placeholder="Enter item name">
+    <button ng-click="shoppingCtrl.addItem()">Add Item</button>
+</div>
+
+<script>
+    angular.module('shoppingApp', [])
+    .controller('ShoppingController', function() {
+        var vm = this;
+        vm.items = [
+            { name: 'Apples' }
+        ];
+        
+        vm.addItem = function() {
+            var newItemName = vm.newItemName.trim();
+            if (newItemName) {
+                // Check if item already exists
+                if (!vm.itemExists(newItemName)) {
+                    vm.items.push({ name: newItemName });
+                    vm.newItemName = ''; // Clear input field
+                } else {
+                    alert("Item already exists!");
+                }
+            }
+        };
+
+        vm.removeItem = function(index) {
+            vm.items.splice(index, 1);
+        };
+
+        vm.itemExists = function(newItemName) {
+            return vm.items.some(function(item) {
+                return item.name.toLowerCase() === newItemName.toLowerCase();
+            });
+        };
+    });
+</script>
+
+</body>
+</html>

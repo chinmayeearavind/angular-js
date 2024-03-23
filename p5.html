@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Details</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-controller="StudentController">
+  <label for="numberOfStudents">Enter the number of students:</label>
+  <input type="number" id="numberOfStudents" ng-model="numberOfStudents">
+  <button ng-click="showStudents()">Show Students</button>
+
+  
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="student in students">
+          <td>{{student.name}}</td>
+          <td>{{student.cgpa}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  angular.module('studentApp', [])
+    .controller('StudentController', ['$scope', function($scope) {
+      $scope.showStudents = function() {
+        $scope.students = [];
+        for (var i = 1; i <= $scope.numberOfStudents; i++) {
+          $scope.students.push({
+            name: "Student " + i,
+            cgpa:(Math.random()*10+1).toFixed(2) // Random CGPA between 2 and 4
+          });
+        }
+      };
+    }]);
+</script>
+
+</body>
+</html>

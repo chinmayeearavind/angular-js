@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todoApp">
+<head>
+  <meta charset="UTF-8">
+  <title>AngularJS Todo List</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-controller="TodoController">
+    <h1>AngularJS Todo List</h1>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="task in tasks">
+        <td><input type="checkbox" ng-model="task.completed"></td>
+        <td>
+          <span ng-hide="task.editing">{{ task.name }}</span>
+          <input type="text" ng-show="task.editing" ng-model="task.name">
+        </td>
+        <td>
+          <button ng-click="task.editing = !task.editing">{{ task.editing ? 'Save' : 'Edit' }}</button>
+          <button ng-click="tasks.splice($index, 1)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <label for="newTask">New Task:</label>
+    <input type="text" id="newTask" ng-model="newTask">
+    <button ng-click="newTask && tasks.push({name: newTask, editing: false})">Add Task</button>
+  </div>
+</div>
+
+<script>
+  angular.module('todoApp', [])
+    .controller('TodoController', ['$scope', function($scope) {
+      $scope.tasks = [
+        { name: 'Task 1', editing: false },
+        { name: 'Task 2', editing: false },
+        { name: 'Task 3', editing: false }
+      ];
+    }]);
+</script>
+
+</body>
+</html>
